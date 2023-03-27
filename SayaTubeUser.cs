@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,11 @@ namespace modul06_1302213116
 
         public SayaTubeUser(string Username)
         {
+            //Debug.Assert(Username.Length <= 100 && Username != null);
+            if(Username.Length >= 100 || Username == null)
+            {
+                throw new Exception("Username Diluar Kontrak");
+            }
             Random random = new Random();
             id = random.Next(10000, 99999);
             this.Username = Username;
@@ -27,6 +33,7 @@ namespace modul06_1302213116
 
         public int GetTotalVideoPlayCount()
         {
+            
             int total = 0;
             foreach(SayaTubeVideo video in uploadedVideos)
             {
@@ -37,12 +44,14 @@ namespace modul06_1302213116
 
         public void AddVideo(SayaTubeVideo newVideo)
         {
+            Debug.Assert(newVideo != null && newVideo.getPlayCount() < int.MaxValue);
             uploadedVideos.Add(newVideo);
         }
 
         public void PrintAllVideoPlayCount()
         {
             Console.WriteLine($"User\t\t: {Username}");
+            Debug.Assert(uploadedVideos.Count < 8, "Diluar Index");
 
             for(int i = 0; i < uploadedVideos.Count; i++)
             {
